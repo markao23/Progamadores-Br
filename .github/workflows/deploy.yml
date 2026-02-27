@@ -1,0 +1,27 @@
+name: Deploy to Shard Cloud
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Puxa os seus arquivos mais recentes do GitHub
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      # 2. Empacota e envia os arquivos novos para a Shard Cloud
+      - name: Enviar arquivos (Commit)
+        uses: shard-cloud/action@main
+        with:
+          token: ${{ secrets.SHARD_CLOUD_API_KEY }}
+          commands: commit 1475934513313091615
+          
+      # 3. Força a reinicialização do bot para ele ler o código novo!
+      - name: Reiniciar o Bot (Restart)
+        uses: shard-cloud/action@main
+        with:
+          token: ${{ secrets.SHARD_CLOUD_API_KEY }}
+          commands: restart 1475934513313091615
