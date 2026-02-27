@@ -61,7 +61,7 @@ class Langs(commands.Cog):
         # Rodapé do Embed com uma dica
         embed.set_footer(
             text="Dica: Use a sintaxe markdown do Discord com a sigla correta para compilar!",
-            icon_url=self.bot.user.avatar.url if self.bot.user.avatar else None
+            icon_url=self.bot.user.display_avatar.url
         )
 
         # Envia a mensagem respondendo a interação
