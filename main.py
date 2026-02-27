@@ -14,12 +14,20 @@ class MeuBot(commands.Bot):
         super().__init__(command_prefix="P!", intents=intents)
 
     async def setup_hook(self):
-        for filename in os.listdir("./cogs"):
-            if filename.endswith(".py"):
-                await self.load_extension(f"cogs.{filename[:-3]}")
-                print(f"✅ Cog carregada: {filename}")
-        await self.tree.sync()
-        print("🌍 Comandos de barra sincronizados!")
+        for root, dirs, files in os.walk("./cogs"):
+            for filename in files:
+                if filename.endswith(".py"):
+                    caminho_completo = os.path.join(root, filename)
+                    modulo = (
+                        caminho_completo.replace("./", "")
+                        .replace(".py", "")
+                        .replace("\\", ".")
+                        .replace("/", ".")
+                    )
+                    await self.load_extension(modulo)
+                    print(f"✅ Cog carregada: {filename}")
+            await self.tree.sync()
+            print("🌍 Comandos de barra sincronizados!")
 
 
 bot = MeuBot()
